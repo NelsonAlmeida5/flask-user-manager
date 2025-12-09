@@ -21,8 +21,6 @@
 
 2. Activez-le :
 
-   **Mac/Linux :**
-
    ```powershell
    # Sous Mac/Linux (bash)
    source .venv/bin/activate
@@ -37,10 +35,9 @@
    pip install -r requirements.txt
    ```
 
-4. Désactivez l'environnement une fois terminé :
-   ```bash
-   deactivate
-   ```
+> `venv` permet de créer un environnement Python isolé dans un dossier, pour que chaque projet ait ses propres dépendances sans interférer avec les autres (comme les dépendances global à l'OS ou celles d'autres projets, inclus leurs versions spécifiques). Pour plus de détail: [https://docs.python.org/3/library/venv.html](https://docs.python.org/3/library/venv.html).
+
+> Pour désactivez/sortir de l'environnement en cours, utiliser la commande `deactivate`.
 
 <div class="page"></div>
 
