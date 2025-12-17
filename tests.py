@@ -4,8 +4,8 @@ import os
 import shutil
 from app import main
 
-class TestCase(unittest.TestCase):
 
+class TestCase(unittest.TestCase):
     def setUp(self):
         main.app.config['WTF_CSRF_ENABLED'] = False
         self.app = main.app.test_client()
@@ -13,11 +13,11 @@ class TestCase(unittest.TestCase):
         # Backup the original users file
         if os.path.exists(self.users_path):
             shutil.copy(self.users_path, self.users_path + ".bak")
-        
+
         # Ensure we start with a known state if needed, but for now we just backup
         # Reload users to ensure clean state if previous tests modified it in memory
         with open(main.users_path, "r") as f:
-             main.users = json.load(f)
+            main.users = json.load(f)
 
     def tearDown(self):
         # Restore the original users file
@@ -48,7 +48,7 @@ class TestCase(unittest.TestCase):
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"User testuser added successfully", response.data)
-        
+
         # Verify user was actually added to the list
         self.assertIn("testuser", main.users)
         self.assertEqual(main.users["testuser"]["name"], "Test User")
@@ -57,16 +57,16 @@ class TestCase(unittest.TestCase):
         # First add a user to edit
         main.users["edituser"] = {"id": "888", "name": "Edit Me", "description": "Original"}
         main.save_users()
-        
+
         response = self.app.post('/edit/edituser', data=dict(
-            username="edituser", # Field represents the hidden or displayed username, though typically it might be immutable in some designs, here generic form has it
+            username="edituser",   # Field represents the hidden or displayed username
             id="888",
             name="Edited Name",
             description="Updated Description"
         ), follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"User edituser updated successfully", response.data)
-        
+
         # Verify update
         self.assertEqual(main.users["edituser"]["name"], "Edited Name")
 
@@ -74,11 +74,11 @@ class TestCase(unittest.TestCase):
         # First add a user to delete
         main.users["deluser"] = {"id": "777", "name": "Delete Me", "description": "Bye"}
         main.save_users()
-        
+
         response = self.app.post('/delete/deluser', follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"User deluser deleted", response.data)
-        
+
         # Verify deletion
         self.assertNotIn("deluser", main.users)
 
