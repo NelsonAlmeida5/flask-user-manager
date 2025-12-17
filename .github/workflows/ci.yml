@@ -1,0 +1,25 @@
+name: python flask
+ 
+on: [push, pull_request]
+ 
+jobs:
+    test:
+        runs-on: ubuntu-latest
+ 
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v5
+ 
+          - name: Install python
+            uses: actions/setup-python@v6
+            with:
+                python-version: '3.14.2'
+ 
+          - name: Install dependencies
+            run: pip install -r requirements.txt
+ 
+          - name: flake8 Lint
+            run:  flake8 .
+           
+          - name: Test code
+            run: python tests.py
